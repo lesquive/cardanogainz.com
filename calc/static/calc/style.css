@@ -1,0 +1,18 @@
+
+.footer {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    margin-top: 2%;
+}
+
+
+#mainCalc{
+    margin-top: 2%;
+}
+
+#MainBody {
+    display: flex;
+    justify-content: center;
+    }
