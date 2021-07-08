@@ -1,52 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'calc/style.css' %}">
-    <link rel="shortcut icon" type="image/png" href="{% static 'calc/images/adaCalc.png' %}" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'calc/style.css' %}" />
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="{% static 'calc/images/adaCalc.png' %}"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+
+      const labels = [
+          '1',
+          '2',
+          '3',
+          '4',
+          '5',
+          '6',
+          '7',
+          '8',
+          '9',
+          '10',
+      ];
+
+      const data = {
+          labels: labels,
+          datasets: [{
+              label: 'Total Amount of ADA Over 10 Years When Staking and Hodling',
+              backgroundColor: 'rgb(42, 113, 208)',
+              borderColor: 'rgb(42, 113, 208)',
+              data: {{ my_ada_list }},
+          }]
+      };
+
+      const data2 = {
+          labels: labels,
+          datasets: [{
+              label: 'Average Monthly Income Over 10 Years When Staking and Hodling',
+              backgroundColor: 'rgb(42, 113, 208)',
+              borderColor: 'rgb(42, 113, 208)',
+              data: {{ my_monthly_list }},
+          }]
+      };
+
+      const config = {
+          type: 'line',
+          data,
+          options: {
+              scales: {
+                  y: {
+                      display: true,
+                      ticks: {
+                          // Include a dollar sign in the ticks
+                          callback: function (value, index, values) {
+                              return '₳' + value;
+                          }
+                      },
+                      title: {
+                          display: true,
+                          text: 'Total Amount of ADA'
+                      }
+                  },
+                  x: {
+                      display: true,
+                      title: {
+                          display: true,
+                          text: 'Years Hodling ADA'
+                      }
+                  }
+              }
+          }
+      };
+
+      const config2 = {
+          type: 'line',
+          data: data2,
+          options: {
+              scales: {
+                  y: {
+                      display: true,
+                      ticks: {
+                          // Include a dollar sign in the ticks
+                          callback: function (value, index, values) {
+                              return '$' + value;
+                          }
+                      },
+                      title: {
+                          display: true,
+                          text: 'Monthly Income'
+                      }
+                  },
+                  x: {
+                      display: true,
+                      title: {
+                          display: true,
+                          text: 'Years Hodling ADA'
+                      }
+                  }
+              }
+          }
+      };
+
+      // === include 'setup' then 'config' above ===
+
+      window.onload = function () {
+          var myChart = new Chart(
+              document.getElementById('myChart'),
+              config
+          );
+          var myChart2 = new Chart(
+              document.getElementById('myChart2'),
+              config2
+          );
+      };
+    </script>
 
     <title>Cardano Gainz!</title>
+  </head>
 
-</head>
-
-<nav class="navbar navbar-light bg-light">
+  <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <img src="{% static 'calc/images/cardano.png' %}" alt="" height="60"
-                class="d-inline-block align-text-center">
-            Calculate Your ADA Gainz!
-        </a>
+      <a class="navbar-brand" href="#">
+        <img
+          src="{% static 'calc/images/cardano.png' %}"
+          alt=""
+          height="60"
+          class="d-inline-block align-text-center"
+        />
+        Calculate Your ADA Gainz!
+      </a>
     </div>
-</nav>
+  </nav>
 
+  <body>
+    <div id="MainBody">{% block calc %} {% endblock %}</div>
+  </body>
 
-<body>
-    <div id="MainBody">
-
-        {% block calc %}
-
-        {% endblock %}
-
-    </div>
-
-</body>
-
-<footer class="footer mb-4">
+  <footer class="footer mb-4">
     <div class="container">
-        <span class="text-muted">Created by <a href="https://twitter.com/lesquive1"
-                style="text-decoration:none">@lesquive1</a>, original idea by <a href="https://twitter.com/jackingrm"
-                style="text-decoration:none">@jackingrm</a></span>
-        <br><span class="text-muted">Help us be better: <a href="https://github.com/lesquive/cardanogainz.com.git"><img
-                    src="{% static 'calc/images/GitHub-Mark-32px.png' %}" alt="" height="20"
-                    class="d-inline-block align-text-center"></a>
-        </span>
+      <span class="text-muted"
+        >Created by
+        <a href="https://twitter.com/lesquive1" style="text-decoration: none"
+          >@lesquive1</a
+        >, original idea by
+        <a href="https://twitter.com/jackingrm" style="text-decoration: none"
+          >@jackingrm</a
+        ></span
+      >
+      <br /><span class="text-muted"
+        >Help us be better:
+        <a href="https://github.com/lesquive/cardanogainz.com.git"
+          ><img
+            src="{% static 'calc/images/GitHub-Mark-32px.png' %}"
+            alt=""
+            height="20"
+            class="d-inline-block align-text-center"
+        /></a>
+      </span>
     </div>
-</footer>
-
+  </footer>
 </html>
