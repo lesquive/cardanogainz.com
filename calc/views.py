@@ -4,18 +4,6 @@ from pycoingecko import CoinGeckoAPI
 from django import forms
 cg = CoinGeckoAPI()
 
-# response = cg.get_price(ids='cardano', vs_currencies='usd', include_market_cap='true')
-
-# #print(response)
-
-# ada_price = response['cardano']['usd']
-# ada_market_cap = response['cardano']['usd_market_cap']
-
-#print (ada_price)
-
-# Create your views here.
-
-
 def index(request):
 
     response = cg.get_price(
@@ -26,17 +14,12 @@ def index(request):
 
     class NameForm(forms.Form):
         my_cardano = forms.IntegerField(label='Amount Of Cardano (ADA):', initial=1000, widget=forms.TextInput(
-            attrs={'class': 'mb-3 ms-4 me-4'}))
-        my_ada_price = forms.FloatField(label='Cardano ADA Price:', initial=ada_price, widget=forms.TextInput(
-            attrs={'class': 'mb-3 ms-4 me-4'}))
+            attrs={'autofocus': True}))
+        my_ada_price = forms.FloatField(label='Cardano ADA Price:', initial=ada_price)
 
     if request.method == 'POST':
         form = NameForm(request.POST)
         if form.is_valid():
-
-            # print("wohoo")
-            # print(form['my_cardano'].value())
-            # print(form['my_ada_price'].value())
 
             amount_of_cardano = float(form['my_cardano'].value())
             cardano_worth = amount_of_cardano * \
