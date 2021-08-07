@@ -3,7 +3,8 @@ from django.http import HttpResponse
 from pycoingecko import CoinGeckoAPI
 from django import forms
 from .graphs import *
-
+from datetime import date, datetime, timedelta
+import pytz
 
 cg = CoinGeckoAPI()
 
@@ -107,3 +108,22 @@ def index(request):
             'my_ada_list': my_ada_list,
             'my_monthly_list': my_monthly_list,
         })
+
+def payday(request):
+    
+    today = datetime.now(pytz.timezone('America/Denver'))
+    Genasis = datetime(2021, 8, 3, 0, 0, 0, 0, pytz.timezone('America/Denver'))
+    
+    days = str(today - Genasis)
+    
+    clean = int(days.split()[0])
+    
+    if clean % 5 == 0:
+        payday = True
+        timeUntil = date.today()
+    else:
+        daysUntil = 5 - ((clean % 5))
+        timeUntil = date.today() + timedelta(days=daysUntil)
+        payday = False
+        
+    return render(request, 'payday/payday.html', {'payday' : payday , 'timeUntil' : timeUntil.strftime("%x")})
