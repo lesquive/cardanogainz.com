@@ -120,10 +120,10 @@ def payday(request):
     
     if clean % 5 == 0:
         payday = True
-        timeUntil = date.today()
+        timeUntil = datetime.now(pytz.timezone('America/Denver'))
     else:
         daysUntil = 5 - ((clean % 5))
-        timeUntil = date.today() + timedelta(days=daysUntil)
+        timeUntil = datetime.now(pytz.timezone('America/Denver')) + timedelta(days=daysUntil)
         payday = False
         
     return render(request, 'payday/payday.html', {'payday' : payday , 'timeUntil' : timeUntil.strftime("%x")})
