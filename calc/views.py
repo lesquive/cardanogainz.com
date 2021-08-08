@@ -118,7 +118,7 @@ def payday(request):
     
     clean = int(days.split()[0])
     
-    if clean % 5 == 0:
+    if (clean + 1) % 5 == 0:
         payday = True
         timeUntil = datetime.now(pytz.timezone('America/Denver'))
     else:
