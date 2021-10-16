@@ -4,15 +4,6 @@
     text-align: center;
 }
 
-#mainCalc{
-  margin-top: 2%;
-}
-
-#MainBody {
-  display: flex;
-  justify-content: center;
-  }
-
 .footer {
   left: 0;
   bottom: 0;

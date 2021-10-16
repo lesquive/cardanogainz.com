@@ -134,7 +134,7 @@
 
   <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="{% url 'index' %}">
         <img
           src="{% static 'calc/images/cardano.png' %}"
           alt=""
@@ -142,6 +142,17 @@
           class="d-inline-block align-text-center"
         />
         Calculate Your ADA Gainz!
+      </a>
+      <a href="{% url 'payday' %}">
+        <button type="button" class="btn btn-primary btn-sm">
+          <img
+            src="{% static 'calc/images/Event.png' %}"
+            alt=""
+            height="20"
+            class="d-inline-block align-text-center"
+          />
+          Is it Payday?
+        </button>
       </a>
     </div>
   </nav>

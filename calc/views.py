@@ -21,8 +21,9 @@ t.start() # this will run the `ping` function in a separate thread
 
 def index(request):
 
-    # response = cg.get_price(ids='cardano', vs_currencies='usd', include_market_cap='true')
-    
+    # response = cg.get_price(
+    #     ids='cardano', vs_currencies='usd', include_market_cap='true')
+
     ada_price = response['cardano']['usd']
     ada_market_cap = response['cardano']['usd_market_cap']
 
@@ -122,12 +123,12 @@ def payday(request):
     
     today = datetime.now(pytz.timezone('America/Denver'))
     Genasis = datetime(2021, 8, 3, 0, 0, 0, 0, pytz.timezone('America/Denver'))
-    
+
     days = str(today - Genasis)
     
     clean = int(days.split()[0])
     
-    if (clean + 1) % 5 == 0:
+    if clean % 5 == 0:
         payday = True
         timeUntil = datetime.now(pytz.timezone('America/Denver'))
     else:
