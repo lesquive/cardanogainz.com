@@ -5,15 +5,24 @@ from django import forms
 from .graphs import *
 from datetime import date, datetime, timedelta
 import pytz
+import threading
+import time
 
 cg = CoinGeckoAPI()
 
+def getResponse(): 
+    while True: 
+        global response
+        response = cg.get_price(ids='cardano', vs_currencies='usd', include_market_cap='true')
+        time.sleep(60)
+
+t = threading.Thread(target=getResponse)
+t.start() # this will run the `ping` function in a separate thread
 
 def index(request):
 
-    response = cg.get_price(
-        ids='cardano', vs_currencies='usd', include_market_cap='true')
-
+    # response = cg.get_price(ids='cardano', vs_currencies='usd', include_market_cap='true')
+    
     ada_price = response['cardano']['usd']
     ada_market_cap = response['cardano']['usd_market_cap']
 
