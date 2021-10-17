@@ -10,6 +10,8 @@ import time
 
 cg = CoinGeckoAPI()
 
+response = cg.get_price(ids='cardano', vs_currencies='usd', include_market_cap='true')
+
 def getResponse(): 
     while True: 
         global response
